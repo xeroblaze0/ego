@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "bde_website",
+			"path": "."
+		},
+		{
+			"name": "demo_tutorial",
+			"path": "../demo_tutorial"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "demo_tutorial"
+	}
+}

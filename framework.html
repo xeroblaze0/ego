@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Ego Energy</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+    .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    .fa-anchor,.fa-coffee {font-size:200px}
+
+    .image {
+    width: 250px;
+    float: left;
+    margin: 20px;
+    }
+    body {
+    font-size: small;
+    line-height: 1.4;
+    text-align: left;
+    }
+
+    t1 {
+    text-align: right;
+    }
+
+    p {
+    margin: 0;
+    }
+
+    .performance-facts {
+    border: 1px solid black;
+    margin: 20px;
+    float: left;
+    width: 280px;
+    padding: 0.5rem;
+    table {border-collapse: collapse;}
+    }
+    .performance-facts__title {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 0 0 0.25rem 0;
+    }
+    .performance-facts__header {
+    border-bottom: 10px solid black;
+    padding: 0 0 0.25rem 0;
+    margin: 0 0 0.5rem 0;
+    p {
+        margin: 0;
+    }
+    }
+    .performance-facts__table {
+    width: 100%;
+    thead tr {
+        th,
+        td {
+        border: 0;
+        }
+    }
+    th,
+    td {
+        font-weight: normal;
+        text-align: left;
+        padding: 0.25rem 0;
+        border-top: 1px solid black;
+        white-space: nowrap;
+    }
+    td {
+        &:last-child {
+        text-align: right;
+        }
+    }
+    .blank-cell {
+        width: 1rem;
+        border-top: 0;
+    }
+    .thick-row {
+        th,
+        td {
+        border-top-width: 5px;
+        }
+    }
+    }
+    .small-info {
+    font-size: 0.7rem;
+    }
+
+    .performance-facts__table--small {
+    @extend .performance-facts__table;
+    border-bottom: 1px solid #999;
+    margin: 0 0 0.5rem 0;
+    thead {
+        tr {
+        border-bottom: 1px solid black;
+        }
+    }
+    td {
+        &:last-child {
+        text-align: left;
+        }
+    }
+    th,
+    td {
+        border: 0;
+        padding: 0;
+    }
+    }
+
+    .performance-facts__table--grid {
+    @extend .performance-facts__table;
+    margin: 0 0 0.5rem 0;
+    td {
+        &:last-child {
+        text-align: left;
+        &::before {
+            content: "•";
+            font-weight: bold;
+            margin: 0 0.25rem 0 0;
+        }
+        }
+    }
+    }
+
+    .text-center {
+    text-align: center;
+    }
+    .text-right {
+    text-align: right;
+    }
+    .thick-end {
+    border-bottom: 10px solid black;
+    }
+    .thin-end {
+    border-bottom: 1px solid black;
+    }
+    .nutrient {
+        font-weight: bold;
+    }
+    
+</style>
+
+<body>
+  <!-- template spacers -->
+  <div class="w3-row">
+    <div class="w3-col m1 w3-center w3-grey">1</div>
+    <div class="w3-col m1 w3-center">2</div>
+    <div class="w3-col m1 w3-center w3-grey">3</div>
+    <div class="w3-col m1 w3-center">4</div>
+    <div class="w3-col m1 w3-center w3-grey">5</div>
+    <div class="w3-col m1 w3-center">6</div>
+    <div class="w3-col m1 w3-center w3-grey">7</div>
+    <div class="w3-col m1 w3-center">8</div>
+    <div class="w3-col m1 w3-center w3-grey">9</div>
+    <div class="w3-col m1 w3-center">10</div>
+    <div class="w3-col m1 w3-center w3-grey">11</div>
+    <div class="w3-col m1 w3-center">12</div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="w3-row">
+    <div class="w3-bar m1 w3-red w3-large">
+      <a class="w3-bar-item w3-button w3-xlarge">Ego Energy</a>
+    </div>
+  </div>
+
+        <div class="w3-container" style="padding: 0px">
+            <div id="nutrition_label" class="w3-container w3-cell w3-quarter w3-mobile">
+              <!-- https://codepen.io/chriscoyier/pen/egHEK -->
+              <h6>Nutrition Label</h6>
+        
+              <section class="performance-facts">
+                <header class="performance-facts__header">
+                  <h1 class="performance-facts__title">Nutrition Facts</h1>
+                  <p id="serving_size">Serving Size: 1 scoop</p>
+                  <span id="serving_per_container">Serving Per Container: </span>
+                  <input type="radio" id="spc30" name="spc" onclick=get_total() value="30" checked>
+                  <label for="spc1">30</label>
+                  <input type="radio" id="spc60" name="spc" onclick=get_total() value="60">
+                  <label for="spc2">60</label>
+                  <input type="radio" id="spc90" name="spc" onclick=get_total() value="90">
+                  <label for="spc3">90</label><br>
+                </header>
+                <table class="performance-facts__table">
+                  <thead>
+                    <tr>
+                      <th colspan="3" class="small-info">
+                        Amount Per Serving
+                      </th>
+                      <th colspan="3" class="small-info">
+                        <b>% Daily Value*</b>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="nutrition_fact_table"></tbody>
+                </table>
+        
+                <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
+                <p class="small-info">** Percent Daily Values not established</p>estimate
+        
+              </section>
+            </div>
+            
+            <div id="selection" class="w3-container w3-cell w3-half w3-mobile">
+              <h6>Selection</h6>
+
+              <input type="text" style="width: 75%" placeholder="Search.." id="search_input" onkeyup="search_function()">
+            </div>
+
+            <div id="estimate" class="w3-container w3-cell w3-quarter w3-mobile">
+              <h6>Estimate</h6>
+            </div>
+        </div>
+</body>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+<script>
+
+/************************************
+Pull data from csv file
+*************************************
+Uses PapaParse to parse data.csv into arrays for the webpage to use
+*/
+  var supplement_data = [];
+  var nootropic_data = [];
+  var flavor_data = [];
+  var user_cart = [];
+  var userinput_mix_id = 0;
+
+  Papa.parse('data.csv',{
+    header: true,
+    newline: "\n",
+    delimiter: ",",
+    quoteChar: '"',
+    dynamicTyping: true,
+    download: true,
+    complete: function(results){
+    
+    for (let i=0;i<results.data.length;i++){
+      if (results.data[i].type=="supplement"){
+        supplement_data.push(results.data[i]);
+      }
+      else if (results.data[i].type=="nootropic"){
+        nootropic_data.push(results.data[i]);
+      }
+      else {
+        flavor_data.push(results.data[i]);
+      }
+    }
+  }
+});
+
+  function search_function() {
+    // let input, filter, ul, li, a, i, p;
+    // input = document.getElementById("search_input");
+    // filter = input.value.toUpperCase();
+    // div = document.getElementById("supplement_drop_menu");
+    // a = div.getElementsByTagName("a");
+    // for (i = 0; i < a.length; i++) {
+    //   txtValue = a[i].textContent || a[i].innerText;
+    //   if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //     a[i].style.display = "";
+    //   } else {
+    //     a[i].style.display = "none";
+    //   }
+    // }
+  }
+</script>
+
+</html>
