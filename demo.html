@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>W3.CSS Template</title>
+<title>Ego Energy DEMO</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -193,13 +193,27 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Demo</button> -->
 </header>
 
-<!-- First Grid -->
+<!-- Container -->
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
+
+<!-- Search -->
+<button class="accordion">Search</button>
+<div class="panel" id="panel_search">
+  <!-- <p>this is where the search bar goes</p> -->
+  <div class="w3-dropdown-click">
+    <div id="supplement_drop_menu" class="w3-dropdown-content w3-bar-block w3-border"></div>
+    <input type="text" id="tempsearchhotfix" placeholder="Search.." onclick="onclick_supplement_dropdown()" onkeyup="search_function()" style="width: 200%">
+  </div>
+</div>
+
+<!-- Editor -->
       <button class="accordion">Editor</button>
       <div class="panel">
         <p>this is where the editor goes</p>
       </div>
+
+<!-- Nutrition Label -->
       <button class="accordion">Nutrition Label</button>
       <div class="panel">
         <section class="performance-facts">
@@ -227,16 +241,17 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             </thead>
             <tbody id="nutrition_fact_table"></tbody>
           </table>
-  
           <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
           <p class="small-info">** Percent Daily Values not established</p>estimate
-  
         </section>
       </div>
+      
+<!-- Estimate -->      
       <button class="accordion">Estimate</button>
       <div class="panel">
         <p>this is where the estimate</p>
       </div>
+
     </div>
   </div>
 </div>
@@ -282,11 +297,104 @@ function hamburger() {
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
       } else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
-      } 
-    });
+          if (panel.id="panel_search") {
+            panel.style.maxHeight = "fit-content";
+          }
+          else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          }
+        } 
+      });
   }
-  </script>
+</script>
+
+<!-- onclick_supplement_dropdown -->
+<script>
+  function onclick_supplement_dropdown() {
+  /*
+  Toggles show/hide on click
+
+  Has "Search..." in searchbar, calls searchfunction() when entering kestrokes
+
+  Populates list with supplement names, each calling the add_supplement(item_name) function
+  */
+    let x = document.getElementById("supplement_drop_menu");
+    x.style.position = "inherit";
+    x.style.width = "200%";
+    if (x.index == 1){
+      x.style.display = "none";
+      x.index = 0;
+    }
+    else {
+      document.getElementById("tempsearchhotfix").remove();
+      x.style.display = "block";
+      let y ="<input type='text' placeholder='Search..' id='search_input' onkeyup='search_function()' style='width: 100%; max-height: fit-content'>";
+      let i;
+      for (i=0; i<=(supplement_data.length-1); i++) {
+        y = y + "<p><a onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a></p>";
+      }
+      document.getElementById("supplement_drop_menu").innerHTML = y;
+      x.index = 1;
+    }
+  }
+</script>
+
+<!-- Papaparse script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+<script>
+  /*
+  Pull data from csv file
+  Uses PapaParse to parse data.csv into arrays for the webpage to use
+  */
+  var supplement_data = [];
+  var nootropic_data = [];
+  var flavor_data = [];
+  var user_cart = [];
+  var userinput_mix_id = 0;
+
+  Papa.parse('data.csv',{
+    header: true,
+    newline: "\n",
+    delimiter: ",",
+    quoteChar: '"',
+    dynamicTyping: true,
+    download: true,
+
+    complete: function(results){
+      for (let i=0;i<results.data.length;i++){
+        if (results.data[i].type=="supplement"){
+          supplement_data.push(results.data[i]);
+        }
+        else if (results.data[i].type=="nootropic"){
+          nootropic_data.push(results.data[i]);
+        }
+        else {
+          flavor_data.push(results.data[i]);
+        }
+      }
+    }
+    
+  });
+</script>
+
+<!-- Search script -->
+<script>
+  function search_function() {
+    let input, filter, ul, li, a, i, p;
+    input = document.getElementById("search_input");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("supplement_drop_menu");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
+</script>
 
 </body>
 </html>
