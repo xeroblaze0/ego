@@ -202,7 +202,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="panel" id="panel_search">
   <!-- <p>this is where the search bar goes</p> -->
   <div class="w3-dropdown-click">
-    <div id="supplement_drop_menu" class="w3-dropdown-content w3-bar-block w3-border"></div>
+    <div style="z-index: 0" id="supplement_drop_menu" class="w3-dropdown-content w3-bar-block w3-border"></div>
     <input type="text" id="tempsearchhotfix" placeholder="Search.." onclick="onclick_supplement_dropdown()" onkeyup="search_function()" style="width: 200%">
   </div>
 </div>
@@ -211,6 +211,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       <button class="accordion">Editor</button>
       <div class="panel">
         <p>this is where the editor goes</p>
+        <div id="user_mix"></div>
       </div>
 
 <!-- Nutrition Label -->
@@ -249,7 +250,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Estimate -->      
       <button class="accordion">Estimate</button>
       <div class="panel">
-        <p>this is where the estimate</p>
+        <p>this is where the estimate goes</p>
       </div>
 
     </div>
@@ -305,6 +306,249 @@ function hamburger() {
           }
         } 
       });
+  }
+</script>
+
+<!-- add_supplement -->
+<script>
+  function add_supplement(name){
+    // Adds supplement to user's list
+    var supplement_list = document.getElementById("user_mix");
+
+    var length = supplement_list.children.length;
+    let i;
+
+    // if(!document.getElementById("userinput_mix_id")){
+    //   x = document.createElement("INPUT");
+    //   // x = document.createElement("div");
+
+    //   x.type = "text";
+    //   x.value = "New mix";
+    //   x.id = "userinput_mix_id";
+    //   x.onkeyup = function(){};
+    //   document.getElementById("user_mix").appendChild(x);
+    //   // add_to_checkout();
+    // }
+
+    // First checks if anything is on the list. If there is nothing on the list, then we can confidently add it
+    // 1 for yes, 0 for no; initialize yes to enter first supplement
+    if (length==0){
+      var do_we_add = 1; 
+    }
+    else{
+      var do_we_add = 0;
+    }
+
+    // Next we check if the item is already on the list. The function goes through each item of the user's list 
+    // and compares it to the item to be added. If it's already on the list, we throw an error and break. Otherwise
+    // we add it.
+    for (i=0; i<length; i++){
+
+      // if the name clicked is the same as child i, then we do not add it
+      if (name==supplement_list.children[i].localName){
+        // if name is on list we do not add it to the list
+        do_we_add = 0; 
+        error_balloon();
+        break;
+      }
+      else{
+        // if name is not on list we add it to the list
+        do_we_add = 1;
+      }
+    }
+
+    // To add the item on the list, we pull data from the csv that matches the item.
+    // Calls create_supp_container
+    //
+    // This function calls the item name rather than the item itself because I wanted to avoid making the HTML an object
+    if (do_we_add==1){
+      var supplement = supplement_data.find(x=>x.name===name);
+      create_supp_container(supplement)
+    }
+  }
+</script>
+
+<!-- create_supp_container -->
+<script>
+  function create_supp_container(supplement) {
+  /*
+  supp container is the HTML wrapper container for the user's list.
+
+  First it checks if a previous container of the same name was created
+    If not, it creates one, attaches it to the list, then calls the other functions.
+
+    Otherwise it throws an error.
+  */  
+    if(document.getElementById(supplement.name) == null){
+      
+      // var theDiv = document.getElementById("<ID_OF_THE_DIV>");
+      // var content = document.createTextNode("<YOUR_CONTENT>");
+      // theDiv.appendChild(content);
+
+
+      var supp_container = document.getElementById("user_mix");
+      var content = document.createElement("div");
+      content.setAttribute("id", supplement.name);
+      supp_container.appendChild(content);
+
+      create_label(supplement);
+      create_qty_label(supplement);
+      create_buttons(supplement);
+      create_slider(supplement);
+      create_info(supplement);
+      create_nutrition_label(supplement);
+      // create_cart_item(supplement);
+
+      // update_numbers(supplement);
+    }
+    else{
+      alert("supplement exists");
+    }
+  }
+</script>
+
+<!-- create editor UI -->
+<script>
+  function create_label(supplement) {
+    supp_container = document.getElementById(supplement.name);
+    var q = document.createElement("SPAN");
+    q.id=supplement.name.concat("_label");
+    q.innerHTML=supplement.propername.concat(": ");
+    supp_container.appendChild(q);
+  }
+
+  function create_qty_label(supplement) {
+    supp_container = document.getElementById(supplement.name);
+    var x = document.createElement("SPAN");
+    x.id=supplement.name.concat("_label_qty");
+    x.innerHTML="10 " + supplement.unit;
+    supp_container.appendChild(x);
+  }
+
+  function create_buttons(supplement) {
+    supp_container = document.getElementById(supplement.name);
+    var info = document.createElement("BUTTON");
+    info.style = ("float: right");
+    info.innerHTML = " i ";
+    info.onclick = function(){
+      var x = document.getElementById(supplement.name.concat("_info"));
+      if (x.style.display === 'none') {
+        x.style.display = 'block';
+      } else {
+        x.style.display = 'none';
+      }
+    };
+
+    var minus = document.createElement("BUTTON");
+    minus.style = ("float: right")
+    minus.innerHTML = " - ";
+    minus.onclick = function(){
+      if (supplement.qty == 0){
+        return
+      }
+      else{
+        supplement.qty --;
+        document.getElementById(supplement.name.concat("_slider")).value=supplement.qty;
+      }  
+      update_numbers(supplement);
+    };
+    
+    var plus = document.createElement("BUTTON");
+    plus.style = ("float: right")
+    plus.innerHTML = " + ";
+    plus.onclick = function(){
+      if (supplement.qty == document.getElementById(supplement.name.concat("_slider")).max){
+        return
+      }
+      else{
+        supplement.qty ++;
+        document.getElementById(supplement.name.concat("_slider")).value=supplement.qty;
+      }
+      
+      update_numbers(supplement);
+    };
+
+    var trash = document.createElement("BUTTON");
+    trash.style = ("float: right")
+    trash.innerHTML = " ∅ ";
+    trash.onclick = function(){
+      supplement.qty = 0;
+      update_numbers(supplement);
+      get_total();
+
+      document.getElementById(supplement.name).remove();
+      document.getElementById(supplement.name.concat("_nutrient_fact")).remove();
+      document.getElementById(supplement.name.concat("_cart")).remove();
+      if (document.getElementById("user_mix").children.length==0){
+        document.getElementById("userinput_mix_id").remove();
+        document.getElementById("atc").remove();
+        document.getElementById("clear_atc").remove();
+      }
+    };
+
+    supp_container.appendChild(plus);
+    supp_container.appendChild(trash);
+    supp_container.appendChild(minus);
+    supp_container.appendChild(info);
+  }
+
+  function create_slider(supplement) {
+    supp_container = document.getElementById(supplement.name);
+    supplement.qty = 10;
+    var w = document.createElement("div");
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "range");
+    x.setAttribute("class", "slider");
+    x.setAttribute("name", "supplement.name");
+    x.setAttribute("min", "0");
+    x.setAttribute("value", "10");
+    x.setAttribute("max", "500");
+    x.setAttribute("id", supplement.name.concat("_slider"));
+    x.oninput = function(){
+      supplement.qty = Number(this.value);
+      update_numbers(supplement)};
+    x.style = "width: 100%";
+    w.appendChild(x);
+    supp_container.appendChild(w);
+  }
+
+  function create_info(supplement) {
+    supp_container = document.getElementById(supplement.name);
+    var q = document.createElement("SPAN");
+    q.id=supplement.name.concat("_info");
+    q.innerHTML="tada";
+    q.style.display = "none";
+    supp_container.appendChild(q);
+    supp_container.appendChild(q);
+  }
+
+  function create_nutrition_label(supplement) {
+    var table = document.getElementById("nutrition_fact_table");
+    var row = table.insertRow(0);
+    var qty_percent = row.insertCell(0);
+    var qty_mass = row.insertCell(0);
+    var nutrient = row.insertCell(0);
+    
+    row.className = "nutrient";
+    row.id=supplement.name.concat("_nutrient_fact");
+    nutrient.setAttribute("colspan","2");
+    qty_mass.setAttribute("id", supplement.name.concat("_mass_qty"));
+    qty_percent.setAttribute("id", supplement.name.concat("_percent_qty"));
+    
+    nutrient.innerHTML = supplement.propername;
+    qty_mass.innerHTML = supplement.qty;
+
+    nan_check = (supplement.qty / supplement.dv) * 100;
+    if (isNaN(nan_check)){
+      qty_percent.innerHTML = "N/A*";
+
+    }
+    else{
+      qty_percent.innerHTML = String(nan_check.toFixed(0));
+    }
+    
+    qty_percent.className = "text-right";
+    qty_mass.className = "text-right";
   }
 </script>
 
