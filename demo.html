@@ -13,39 +13,158 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
 
-.accordion {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-  transition: 0.4s;
-}
-.active, .accordion:hover {
-  background-color: #ccc;
-}
-.accordion:after {
-  content: '\002B';
-  color: #777;
-  font-weight: bold;
-  float: right;
-  margin-left: 5px;
-}
-.active:after {
-  content: "\2212";
-}
+/* Start Accordion */
+  .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+  }
+  .active, .accordion:hover {
+    background-color: #ccc;
+  }
+  .accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+  .active:after {
+    content: "\2212";
+  }
+  .panel {
+    margin: 10px;
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+/* End Accordion */
 
-.panel {
-  padding: 0 18px;
-  background-color: white;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-}
+/* Start Nutrition Label */
+  .image {
+    width: 250px;
+    float: left;
+    margin: 20px;
+  }
+  body {
+    font-size: small;
+    line-height: 1.4;
+  }
+  p {
+    margin: 0;
+  }
+  .performance-facts {
+    border: 1px solid black;
+    margin: auto;
+    /* float: left; */
+    width: 280px;
+    padding: 0.5rem;
+    table {
+      border-collapse: collapse;
+    }
+  }
+  .performance-facts__title {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 0 0 0.25rem 0;
+  }
+  .performance-facts__header {
+    border-bottom: 10px solid black;
+    padding: 0 0 0.25rem 0;
+    margin: 0 0 0.5rem 0;
+    p {
+      margin: 0;
+    }
+  }
+  .performance-facts__table {
+    width: 100%;
+    thead tr {
+      th,
+      td {
+        border: 0;
+      }
+    }
+    th,
+    td {
+      font-weight: normal;
+      text-align: left;
+      padding: 0.25rem 0;
+      border-top: 1px solid black;
+      white-space: nowrap;
+    }
+    td {
+      &:last-child {
+        text-align: right;
+      }
+    }
+    .blank-cell {
+      width: 1rem;
+      border-top: 0;
+    }
+    .thick-row {
+      th,
+      td {
+        border-top-width: 5px;
+      }
+    }
+  }
+  .small-info {
+    font-size: 0.7rem;
+  }
+  .performance-facts__table--small {
+    @extend .performance-facts__table;
+    border-bottom: 1px solid #999;
+    margin: 0 0 0.5rem 0;
+    thead {
+      tr {
+        border-bottom: 1px solid black;
+      }
+    }
+    td {
+      &:last-child {
+        text-align: left;
+      }
+    }
+    th,
+    td {
+      border: 0;
+      padding: 0;
+    }
+  }
+  .performance-facts__table--grid {
+    @extend .performance-facts__table;
+    margin: 0 0 0.5rem 0;
+    td {
+      &:last-child {
+        text-align: left;
+        &::before {
+          content: "•";
+          font-weight: bold;
+          margin: 0 0.25rem 0 0;
+        }
+      }
+    }
+  }
+  .text-center {
+    text-align: center;
+  }
+  .thick-end {
+    border-bottom: 10px solid black;
+  }
+  .thin-end {
+    border-bottom: 1px solid black;
+  }
+/* End Nutrition Label */
+
 </style>
 </head>
 <body>
@@ -53,25 +172,25 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Navbar -->
 <div class="w3-top">
   <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="hamburger()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="/index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Demo</a>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a> -->
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
   </div>
 </div>
 
 <!-- Header -->
-<header class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">Ego Energy</h1>
-  <p class="w3-xlarge">Preworkout by Yous</p>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Demo</button>
+<header class="w3-container w3-red w3-center" style="padding:64px 16px">
+  <h1 class="w3-margin w3-xlarge">Ego Energy Demo</h1>
+  <!-- <p class="w3-xlarge">Preworkout by Yous</p> -->
+  <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Demo</button> -->
 </header>
 
 <!-- First Grid -->
@@ -83,7 +202,36 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       </div>
       <button class="accordion">Nutrition Label</button>
       <div class="panel">
-        <p>this is where the nutrition label goes</p>
+        <section class="performance-facts">
+          <header class="performance-facts__header">
+            <h1 class="performance-facts__title">Nutrition Facts</h1>
+            <p id="serving_size">Serving Size: 1 scoop</p>
+            <span id="serving_per_container">Serving Per Container: </span>
+            <input type="radio" id="spc30" name="spc" onclick=get_total() value="30" checked>
+            <label for="spc1">30</label>
+            <input type="radio" id="spc60" name="spc" onclick=get_total() value="60">
+            <label for="spc2">60</label>
+            <input type="radio" id="spc90" name="spc" onclick=get_total() value="90">
+            <label for="spc3">90</label><br>
+          </header>
+          <table class="performance-facts__table">
+            <thead>
+              <tr>
+                <th colspan="3" class="small-info">
+                  Amount Per Serving
+                </th>
+                <th colspan="3" class="small-info">
+                  <b>% Daily Value*</b>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="nutrition_fact_table"></tbody>
+          </table>
+  
+          <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
+          <p class="small-info">** Percent Daily Values not established</p>estimate
+  
+        </section>
       </div>
       <button class="accordion">Estimate</button>
       <div class="panel">
@@ -112,7 +260,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 <script>
 // Used to toggle the menu on small screens when clicking on the menu button
-function myFunction() {
+function hamburger() {
   var x = document.getElementById("navDemo");
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
