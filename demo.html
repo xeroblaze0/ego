@@ -318,7 +318,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   <!-- <p>this is where the search bar goes</p> -->
   <div class="dropdown">
     <input type="text" id="search_input" class="dropbtn" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
-    <div class="dropdown-content" id="searchbar_content"></div>
+    <div class="dropdown-content dropbtn" id="searchbar_content"></div>
   </div> 
 </div>
 
@@ -431,11 +431,12 @@ function hamburger() {
   function populate_searchbar_content() {
     document.getElementById("searchbar_content").classList.toggle("show");
     let y ="";
-  let i;
+    let i;
     for (i=0; i<=(supplement_data.length-1); i++) {
-      y = y + "<p><a class='listed_supplement'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a></p>";
+      y = y + "<p><a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a></p>";
     }
     document.getElementById("searchbar_content").innerHTML = y;
+    document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
   }
   
   // Close the dropdown if the user clicks outside of it
@@ -693,37 +694,6 @@ function hamburger() {
   }
 </script>
 
-<!-- onclick_supplement_dropdown -->
-<script>
-  function onclick_supplement_dropdown() {
-  /*
-  Toggles show/hide on click
-
-  Has "Search..." in searchbar, calls searchfunction() when entering kestrokes
-
-  Populates list with supplement names, each calling the add_supplement(item_name) function
-  */
-    let x = document.getElementById("supplement_drop_menu");
-    x.style.position = "inherit";
-    x.style.width = "200%";
-    if (x.index == 1){
-      x.style.display = "none";
-      x.index = 0;
-    }
-    else {
-      document.getElementById("tempsearchhotfix").remove();
-      x.style.display = "block";
-      let y ="<input type='text' placeholder='Search..' id='search_input' onkeyup='search_function()' style='width: 100%; max-height: fit-content; font-size: large;'>";
-      let i;
-      for (i=0; i<=(supplement_data.length-1); i++) {
-        y = y + "<p><a class='listed_supplement'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a></p>";
-      }
-      document.getElementById("supplement_drop_menu").innerHTML = y;
-      x.index = 1;
-    }
-  }
-</script>
-
 <!-- Papaparse script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
 <script>
@@ -778,6 +748,7 @@ function hamburger() {
         a[i].style.display = "none";
       }
     }
+    document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
   }
 </script>
 
