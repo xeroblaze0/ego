@@ -68,7 +68,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 }
 .dropdown-content {
   display: none;
-  position: absolute;
+  /* position: absolute; */
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -278,6 +278,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .listed_supplement{
   font-size:large;
 }
+.full-width{
+  width: 100%;
+}
 /* End Misc. */
 
 </style>
@@ -316,8 +319,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <button class="accordion">Search</button>
 <div class="panel">
   <!-- <p>this is where the search bar goes</p> -->
-  <div class="dropdown">
-    <input type="text" id="search_input" class="dropbtn" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
+  <div class="dropdown full-width">
+    <input type="text" id="search_input" class="dropbtn full-width" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
+    <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
     <div class="dropdown-content dropbtn" id="searchbar_content"></div>
   </div> 
 </div>
@@ -389,16 +393,18 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
 
+
+<!-- Hamburger script -->
 <script>
 // Used to toggle the menu on small screens when clicking on the menu button
-function hamburger() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
+  function hamburger() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+    }
   }
-}
 </script>
 
 <!-- Accordion script -->
