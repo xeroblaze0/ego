@@ -321,7 +321,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   <!-- <p>this is where the search bar goes</p> -->
   <div class="dropdown full-width">
     <input type="text" id="search_input" class="dropbtn full-width" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
-    <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
     <div class="dropdown-content dropbtn" id="searchbar_content"></div>
   </div> 
 </div>
@@ -436,10 +435,16 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   toggle between hiding and showing the dropdown content */
   function populate_searchbar_content() {
     document.getElementById("searchbar_content").classList.toggle("show");
-    let y ="";
+    let x;
+    let y;
     let i;
     for (i=0; i<=(supplement_data.length-1); i++) {
-      y = y + "<p><a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a></p>";
+      if (i==0){
+        y = "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a>";
+      }
+      else{
+        y = y + "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a>";
+      }
     }
     document.getElementById("searchbar_content").innerHTML = y;
     document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
