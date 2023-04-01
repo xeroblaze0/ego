@@ -96,6 +96,20 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 /* End Dropdown */
 
 
+/* Start searchbar result 'added' notification */
+.result_added_show{
+  display: block;
+  /* float: right; */
+}
+.result_added_hide{
+  display: none;
+  /* float: right; */
+}
+.fa-check{
+  float: right;
+}
+/* End Notification */
+
 /* Start Search */
 .topnav {
   overflow: hidden;
@@ -277,6 +291,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 /* Misc. */
 .listed_supplement{
   font-size:large;
+  display: inline;
 }
 .full-width{
   width: 100%;
@@ -320,7 +335,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="panel">
   <!-- <p>this is where the search bar goes</p> -->
   <div class="dropdown full-width">
-    <input type="text" id="search_input" class="dropbtn full-width" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
+    <input type="text" id="search_input" class="dropbtn search-container full-width" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
     <div class="dropdown-content dropbtn" id="searchbar_content"></div>
   </div> 
 </div>
@@ -435,15 +450,17 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   toggle between hiding and showing the dropdown content */
   function populate_searchbar_content() {
     document.getElementById("searchbar_content").classList.toggle("show");
-    let x;
+    // let x;
     let y;
     let i;
     for (i=0; i<=(supplement_data.length-1); i++) {
       if (i==0){
-        y = "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a>";
+        y = "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername;
+        y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
       }
       else{
-        y = y + "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a>";
+        y = y + "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername;
+        y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
       }
     }
     document.getElementById("searchbar_content").innerHTML = y;
@@ -487,10 +504,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     // First checks if anything is on the list. If there is nothing on the list, then we can confidently add it
     // 1 for yes, 0 for no; initialize yes to enter first supplement
     if (length==0){
-      var do_we_add = 1; 
+      var do_we_add = 1;
+      document.getElementById(name+"_searchbar_check").className = "fa fa-check fa-1 result_added_show";
     }
     else{
       var do_we_add = 0;
+      document.getElementById(name+"_searchbar_check").className = "fa fa-check fa-1 result_added_hide"
     }
 
     // Next we check if the item is already on the list. The function goes through each item of the user's list 
@@ -518,6 +537,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     if (do_we_add==1){
       var supplement = supplement_data.find(x=>x.name===name);
       create_supp_container(supplement)
+      // document.getElementById(name+"_searchbar_check").className = "result_added_show";
     }
   }
 </script>
