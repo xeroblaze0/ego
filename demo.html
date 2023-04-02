@@ -324,7 +324,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Demo</button> -->
 </header>
 
-<!-- Container -->
+<!-- Main -->
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
 
@@ -481,24 +481,50 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   }
   </script>
 
-
-<!-- add_editor_object -->
+<!-- add_editor_element -->
 <script>
-  function add_editor_object(supplement) {
+  function add_editor_element(supplement) {
     var content = document.createElement("div");
     content.setAttribute("id", supplement.name);
     document.getElementById("editor_user_mix").appendChild(content);
 
-    create_editor_object_label(supplement);
+    create_editor_element_label(supplement);
+    create_editor_element_qty(supplement);
+    create_editor_element_slider(supplement);
   }
 
-  function create_editor_object_label(supplement) {
-    // supp_container = document.getElementById(supplement.name);
+  function create_editor_element_label(supplement) {
     let q = document.createElement("SPAN");
     q.id=supplement.name.concat("_editor_label");
-    q.innerHTML=supplement.propername.concat(": ");
+    q.textContent=supplement.propername.concat(": ");
     document.getElementById(supplement.name).appendChild(q);
   }
+  function create_editor_element_qty(supplement){
+    let q = document.createElement("SPAN");
+    q.id=supplement.name.concat("_label_qty");
+    q.textContent=supplement.qty + " " + supplement.dose_unit;
+    document.getElementById(supplement.name).appendChild(q);
+  }
+  function create_editor_element_slider(supplement){
+    let w = document.createElement("div");
+    let x = document.createElement("INPUT");
+    x.setAttribute("type", "range");
+    x.setAttribute("class", "slider");
+    x.setAttribute("name", supplement.name);
+    x.setAttribute("min", "0");
+    x.setAttribute("value", supplement.qty);
+    x.setAttribute("max", supplement.max);
+    x.setAttribute("step", supplement.step);
+    x.setAttribute("id", supplement.name.concat("_slider"));
+    x.oninput = function(){
+      supplement.qty = Number(this.value);
+      update_numbers(supplement);
+    }
+    x.style = "width: 100%";
+    w.appendChild(x);
+    document.getElementById(supplement.name).appendChild(w);
+  }
+
 </script>
 
 <!-- create_supp_container -->
@@ -714,12 +740,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <script>
   function result_added_check_check(){
 
-    console.log("result_added_check_check called");
     user_list = document.getElementById("editor_user_mix").childNodes;
     length = user_list.length;
     for (i=0;i<length;i++){
       temp_id = user_list[i].id.concat("_searchbar_check");
-      // console.log(document.getElementById(temp_id));
       document.getElementById(temp_id).style = "display: block";;
     }
   }
@@ -782,11 +806,45 @@ function searchbar_supplement_onclick(supplement){
   if(do_we_add){
     var temp_supplement = supplement_data.find(x=>x.name===supplement);
     document.getElementById(supplement+"_searchbar_check").style="display: block";
-    add_editor_object(temp_supplement);
+    add_editor_element(temp_supplement);
     result_added_check_check();
   }
 }
 
+</script>
+
+<!-- update numbers -->
+<script>
+  function update_numbers(supplement) {
+    x = supplement.qty;
+
+    y = document.getElementById(supplement.name.concat("_label_qty"));
+    y.textContent = String(x).concat(" ").concat(supplement.dose_unit);
+    
+    // z = document.getElementById(supplement.name.concat("_mass_qty"));
+    // z.innerHTML = String(x).concat(" ").concat(supplement.unit);
+    
+    // v = document.getElementById(supplement.name.concat("_cart_label_qty"));
+    // v.innerHTML = String(x);
+
+    // w = document.getElementById(supplement.name.concat("_percent_qty"));
+    // if (supplement.unit == "mg"){
+    //   nan_check = ((supplement.qty / supplement.dv)/1000) * 100;
+    // }
+    // else{
+    //   nan_check = (supplement.qty / supplement.dv) * 100;
+    // }
+
+    // if (isNaN(nan_check)){
+    //   w.innerHTML = "N/A**";
+    // }
+    // else{
+    //   w.innerHTML = String(nan_check.toFixed(0)).concat(" %");
+    // }
+    
+    // u = document.getElementById(supplement.name.concat("_subtotal"));
+    // u.innerHTML = (x * supplement.price).toFixed(2);
+}
 </script>
 
 </body>
