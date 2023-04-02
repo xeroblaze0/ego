@@ -344,7 +344,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       <button class="accordion">Editor</button>
       <div class="panel">
         <p>this is where the editor goes</p>
-        <div id="user_mix"></div>
+        <div id="editor_user_mix"></div>
       </div>
 
 <!-- Nutrition Label -->
@@ -451,16 +451,21 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   function populate_searchbar_content() {
     document.getElementById("searchbar_content").classList.toggle("show");
     // let x;
-    let y;
+    var y;
     let i;
     for (i=0; i<=(supplement_data.length-1); i++) {
       if (i==0){
-        y = "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername;
+        // y = y + "<p><a onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a></p>"
+        y = "<a class='listed_supplement dropbtn' onclick=add_editor_object('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
         y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
+        // y = "<a class='listed_supplement dropbtn'; onclick=add_editor_object("+supplement_data[i]+")>" + supplement_data[i].propername;
+        // y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
       }
       else{
-        y = y + "<a class='listed_supplement dropbtn'; onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername;
-        y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
+        y = y + "<a class='listed_supplement dropbtn' onclick=add_editor_object('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
+        y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
+        // y = y + "<a class='listed_supplement dropbtn'; onclick=add_editor_object(supplement_data[i])>" + supplement_data[i].propername;
+        // y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
       }
     }
     document.getElementById("searchbar_content").innerHTML = y;
@@ -480,32 +485,58 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   </script>
 
 
+<!-- add_editor_object -->
+<script>
+  function add_editor_object(supplement){
+    // First checks if anything is on the list. If there is nothing on the list, then we can confidently add it
+    // initialize true to enter first supplement
+
+    var do_we_add = false;
+
+    // If nothing is on the list, then we add
+    if (!document.getElementById("editor_user_mix").firstChild){
+      do_we_add = true;
+    }
+
+    // If something is on the list, we check if it's the same
+    else{
+      length = document.getElementById("editor_user_mix").children.length
+      for (i=0; i<length; i++){
+        if (supplement.name==document.getElementById("editor_user_mix").children[i].localName){
+          do_we_add = false;
+          break;
+        }
+        else{
+          do_we_add = true;
+          console.log("new thing on the list");
+        }
+      }
+    }
+
+    if(do_we_add){
+      var supplement_container = supplement_data.find(x=>x.name===supplement);
+      console.log(supplement_container);
+      create_supp_container(supplement_container)
+    }
+  }
+
+</script>
+
 <!-- add_supplement -->
 <script>
   function add_supplement(name){
     // Adds supplement to user's list
-    var supplement_list = document.getElementById("user_mix");
+    var supplement_list = document.getElementById("editor_user_mix");
 
     var length = supplement_list.children.length;
     let i;
 
-    // if(!document.getElementById("userinput_mix_id")){
-    //   x = document.createElement("INPUT");
-    //   // x = document.createElement("div");
-
-    //   x.type = "text";
-    //   x.value = "New mix";
-    //   x.id = "userinput_mix_id";
-    //   x.onkeyup = function(){};
-    //   document.getElementById("user_mix").appendChild(x);
-    //   // add_to_checkout();
-    // }
-
     // First checks if anything is on the list. If there is nothing on the list, then we can confidently add it
-    // 1 for yes, 0 for no; initialize yes to enter first supplement
+    // initialize true to enter first supplement
     if (length==0){
-      var do_we_add = 1;
-      document.getElementById(name+"_searchbar_check").className = "fa fa-check fa-1 result_added_show";
+      let do_we_add = true;
+      
+      // document.getElementById(name+"_searchbar_check").className = "fa fa-check fa-1 result_added_show";
     }
     else{
       var do_we_add = 0;
@@ -521,7 +552,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       if (name==supplement_list.children[i].localName){
         // if name is on list we do not add it to the list
         do_we_add = 0; 
-        error_balloon();
+        // error_balloon();
         break;
       }
       else{
@@ -561,7 +592,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       // theDiv.appendChild(content);
 
 
-      var supp_container = document.getElementById("user_mix");
+      var supp_container = document.getElementById("editor_user_mix");
       var content = document.createElement("div");
       content.setAttribute("id", supplement.name);
       supp_container.appendChild(content);
@@ -654,7 +685,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       document.getElementById(supplement.name).remove();
       document.getElementById(supplement.name.concat("_nutrient_fact")).remove();
       document.getElementById(supplement.name.concat("_cart")).remove();
-      if (document.getElementById("user_mix").children.length==0){
+      if (document.getElementById("editor_user_mix").children.length==0){
         document.getElementById("userinput_mix_id").remove();
         document.getElementById("atc").remove();
         document.getElementById("clear_atc").remove();
@@ -735,10 +766,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   Uses PapaParse to parse data.csv into arrays for the webpage to use
   */
   var supplement_data = [];
-  var nootropic_data = [];
-  var flavor_data = [];
-  var user_cart = [];
-  var userinput_mix_id = 0;
 
   Papa.parse('data.csv',{
     header: true,
@@ -750,19 +777,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
     complete: function(results){
       for (let i=0;i<results.data.length;i++){
-        if (results.data[i].type=="supplement"){
-          supplement_data.push(results.data[i]);
-        }
-        else if (results.data[i].type=="nootropic"){
-          nootropic_data.push(results.data[i]);
-        }
-        else {
-          flavor_data.push(results.data[i]);
+        supplement_data.push(results.data[i]);
         }
       }
-    }
-    
-  });
+    });
 </script>
 
 <!-- Search script -->
