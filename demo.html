@@ -97,14 +97,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 
 /* Start searchbar result 'added' notification */
-.result_added_show{
-  display: block;
-  /* float: right; */
-}
-.result_added_hide{
-  display: none;
-  /* float: right; */
-}
 .fa-check{
   float: right;
   display: none;
@@ -297,6 +289,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .full-width{
   width: 100%;
 }
+.show-all{
+  /* overflow: scroll; */
+  min-height: fit-content;
+  /* max-height: 250px; */
+}
 /* End Misc. */
 
 </style>
@@ -331,21 +328,21 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
 
-<!-- Search -->
-<button class="accordion">Search</button>
-<div class="panel" id="panel_search">
-  <!-- <p>this is where the search bar goes</p> -->
-  <div class="dropdown full-width">
-    <input type="text" id="search_input" class="dropbtn search-container full-width" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
-    <div class="dropdown-content dropbtn" id="searchbar_content"></div>
-  </div> 
-</div>
+      <!-- Search -->
+      <button class="accordion">Search</button>
+      <div class="panel" id="panel_search">
+        <!-- <p>this is where the search bar goes</p> -->
+        <div class="dropdown full-width">
+          <input type="text" id="search_input" class="dropbtn search-container full-width" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
+          <div class="dropdown-content dropbtn" id="searchbar_content"></div>
+        </div> 
+      </div>
 
 <!-- Editor -->
       <button class="accordion">Editor</button>
       <div class="panel" id="panel_editor">
         <p>this is where the editor goes</p>
-        <div id="editor_user_mix"></div>
+        <div id="editor_user_mix" class="show-all"></div>
       </div>
 
 <!-- Nutrition Label -->
@@ -435,24 +432,23 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         panel.style.maxHeight = null;
       } 
       else {
-        if (panel.id=="panel_search") {
+        if (panel.id=="panel_search" || panel.id=="panel_editor") {
           panel.style.maxHeight = "fit-content";
         }
         else {
           panel.style.maxHeight = panel.scrollHeight + "px";
         }
-        } 
+      } 
     });
   }
 </script>
 
-<!-- Dropdown script -->
+<!-- populate_searchbar_content -->
 <script>
   /* When the user clicks on the button, 
   toggle between hiding and showing the dropdown content */
   function populate_searchbar_content() {
     document.getElementById("searchbar_content").classList.toggle("show");
-    // let x;
     var y;
     let i;
 
@@ -498,8 +494,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
   function create_editor_object_label(supplement) {
     // supp_container = document.getElementById(supplement.name);
-    var q = document.createElement("SPAN");
-    q.id=supplement.name.concat("_label");
+    let q = document.createElement("SPAN");
+    q.id=supplement.name.concat("_editor_label");
     q.innerHTML=supplement.propername.concat(": ");
     document.getElementById(supplement.name).appendChild(q);
   }
@@ -728,7 +724,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     }
   }
 </script>
-
 
 <!-- Search script -->
 <script>
