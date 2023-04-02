@@ -107,6 +107,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 }
 .fa-check{
   float: right;
+  display: none;
 }
 /* End Notification */
 
@@ -454,22 +455,21 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     // let x;
     var y;
     let i;
+
+    // populate supplement list; results are filtered through search script
     for (i=0; i<=(supplement_data.length-1); i++) {
       if (i==0){
-        // y = y + "<p><a onclick=add_supplement('" + supplement_data[i].name + "')>" + supplement_data[i].propername + "</a></p>"
         y = "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
-        y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
-        // y = "<a class='listed_supplement dropbtn'; onclick=searchbar_supplement_onclick("+supplement_data[i]+")>" + supplement_data[i].propername;
-        // y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
+        y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
       }
       else{
         y = y + "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
-        y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
-        // y = y + "<a class='listed_supplement dropbtn'; onclick=searchbar_supplement_onclick(supplement_data[i])>" + supplement_data[i].propername;
-        // y = y + "<i class='fa fa-check fa-1 result_added_hide' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
+        y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
       }
     }
+    
     document.getElementById("searchbar_content").innerHTML = y;
+    result_added_check_check();
     document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
   }
   
@@ -485,49 +485,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   }
   </script>
 
-<!-- searchbar_supplement_onclick -->
-<script>
-    // First checks if anything is on the editor list.
-    // If nothing is on the list, then we add
-    // If something is on the list, we check if it's the same
-    // If object is the same, we remove it (toggle)
-    // If it's not the same, then we add
-
-  function searchbar_supplement_onclick(supplement){
-    var do_we_add = false;
-
-    // If nothing is on the list, then we add
-    if (!document.getElementById("editor_user_mix").firstChild){
-      do_we_add = true;
-    }
-
-    // If something is on the list, we check if it's the same
-    // if object is the same, we remove it
-    else{
-      length = document.getElementById("editor_user_mix").children.length
-      for (i=0; i<length; i++){
-        if (supplement==document.getElementById("editor_user_mix").children[i].id){
-          //remove supplement
-          do_we_add = false;
-          document.getElementById(supplement+"_searchbar_check").className = "fa fa-check fa-1 result_added_hide";
-          document.getElementById("editor_user_mix").children[i].remove();
-          break;
-        }
-        else{
-          do_we_add = true;
-        }
-      }
-    }
-
-    if(do_we_add){
-      var temp_supplement = supplement_data.find(x=>x.name===supplement);
-
-      document.getElementById(supplement+"_searchbar_check").className = "fa fa-check fa-1 result_added_show";
-      add_editor_object(temp_supplement);
-    }
-  }
-
-</script>
 
 <!-- add_editor_object -->
 <script>
@@ -757,6 +714,22 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     });
 </script>
 
+<!-- result_added_check_check -->
+<script>
+  function result_added_check_check(){
+
+    console.log("result_added_check_check called");
+    user_list = document.getElementById("editor_user_mix").childNodes;
+    length = user_list.length;
+    for (i=0;i<length;i++){
+      temp_id = user_list[i].id.concat("_searchbar_check");
+      // console.log(document.getElementById(temp_id));
+      document.getElementById(temp_id).style = "display: block";;
+    }
+  }
+</script>
+
+
 <!-- Search script -->
 <script>
   function search_function() {
@@ -775,6 +748,50 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     }
     document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
   }
+</script>
+
+<!-- searchbar_supplement_onclick -->
+<script>
+  // First checks if anything is on the editor list.
+  // If nothing is on the list, then we add
+  // If something is on the list, we check if it's the same
+  // If object is the same, we remove it (toggle)
+  // If it's not the same, then we add
+
+function searchbar_supplement_onclick(supplement){
+  var do_we_add = false;
+
+  // If nothing is on the list, then we add
+  if (!document.getElementById("editor_user_mix").firstChild){
+    do_we_add = true;
+  }
+
+  // If something is on the list, we check if it's the same
+  // if object is the same, we remove it
+  else{
+    length = document.getElementById("editor_user_mix").children.length
+    for (i=0; i<length; i++){
+      if (supplement==document.getElementById("editor_user_mix").children[i].id){
+        //remove supplement
+        do_we_add = false;
+        document.getElementById(supplement+"_searchbar_check").style="display: none";
+        document.getElementById("editor_user_mix").children[i].remove();
+        break;
+      }
+      else{
+        do_we_add = true;
+      }
+    }
+  }
+  result_added_check_check();
+  if(do_we_add){
+    var temp_supplement = supplement_data.find(x=>x.name===supplement);
+    document.getElementById(supplement+"_searchbar_check").style="display: block";
+    add_editor_object(temp_supplement);
+    result_added_check_check();
+  }
+}
+
 </script>
 
 </body>
