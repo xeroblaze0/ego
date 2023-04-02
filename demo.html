@@ -332,7 +332,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 <!-- Search -->
 <button class="accordion">Search</button>
-<div class="panel">
+<div class="panel" id="panel_search">
   <!-- <p>this is where the search bar goes</p> -->
   <div class="dropdown full-width">
     <input type="text" id="search_input" class="dropbtn search-container full-width" onclick="populate_searchbar_content()" onkeyup="search_function()" placeholder="Search.."></input>
@@ -342,7 +342,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 <!-- Editor -->
       <button class="accordion">Editor</button>
-      <div class="panel">
+      <div class="panel" id="panel_editor">
         <p>this is where the editor goes</p>
         <div id="editor_user_mix"></div>
       </div>
@@ -432,15 +432,16 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       var panel = this.nextElementSibling;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
-      } else {
-          if (panel.id="panel_search") {
-            panel.style.maxHeight = "fit-content";
-          }
-          else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          }
+      } 
+      else {
+        if (panel.id=="panel_search") {
+          panel.style.maxHeight = "fit-content";
+        }
+        else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
         } 
-      });
+    });
   }
 </script>
 
@@ -490,11 +491,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     // If nothing is on the list, then we add
     // If something is on the list, we check if it's the same
     // If object is the same, we remove it (toggle)
-    // If it's not the same, the we add
+    // If it's not the same, then we add
 
   function searchbar_supplement_onclick(supplement){
-    // First checks if anything is on the list. If there is nothing on the list, then we can confidently add it
-    // initialize true to enter first supplement
     var do_we_add = false;
 
     // If nothing is on the list, then we add
@@ -506,10 +505,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     // if object is the same, we remove it
     else{
       length = document.getElementById("editor_user_mix").children.length
-      // console.log(length);
       for (i=0; i<length; i++){
-        // console.log(supplement);
-        // console.log(document.getElementById("editor_user_mix").children[i].localName);
         if (supplement==document.getElementById("editor_user_mix").children[i].id){
           //remove supplement
           do_we_add = false;
@@ -525,10 +521,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
     if(do_we_add){
       var temp_supplement = supplement_data.find(x=>x.name===supplement);
-      // console.log(supplement_container);
-      // create_supp_container(supplement_container)
-      add_editor_object(temp_supplement);
+
       document.getElementById(supplement+"_searchbar_check").className = "fa fa-check fa-1 result_added_show";
+      add_editor_object(temp_supplement);
     }
   }
 
@@ -537,12 +532,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- add_editor_object -->
 <script>
   function add_editor_object(supplement) {
-    // console.log(supplement);
     var content = document.createElement("div");
     content.setAttribute("id", supplement.name);
     document.getElementById("editor_user_mix").appendChild(content);
 
-    
     create_editor_object_label(supplement);
   }
 
