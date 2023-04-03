@@ -49,6 +49,27 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   }
 /* End Accordion */
 
+/* Start Button */
+.button {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.plus {border-radius: 2px;}
+.minus {border-radius: 4px;}
+.trash {border-radius: 8px;}
+.info {border-radius: 12px;}
+
+/* End Button */
 
 /* Start Dropdown */
 .dropdown {
@@ -490,6 +511,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
     create_editor_element_label(supplement);
     create_editor_element_qty(supplement);
+    create_editor_element_buttons(supplement);
     create_editor_element_slider(supplement);
   }
 
@@ -524,7 +546,36 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     w.appendChild(x);
     document.getElementById(supplement.name).appendChild(w);
   }
+  function create_editor_element_buttons(supplement){
+    var minus = document.createElement("BUTTON");
+    minus.classList.add('button');
+    // minus.style = ("float: right")
+    minus.textContent = " - ";
+    minus.onclick = function(){
+      if (supplement.qty == 0){
+        return
+      }
+      else{
+        supplement.qty=supplement.qty-supplement.step;
+        document.getElementById(supplement.name.concat("_slider")).value=supplement.qty;
+      }  
+      update_numbers(supplement);
+    };
+    
+    var info = document.createElement("BUTTON");
+    info.style = ("float: right");
+    info.innerHTML = " i ";
+    info.onclick = function(){
+      var x = document.getElementById(supplement.name.concat("_info"));
+      if (x.style.display === 'none') {
+        x.style.display = 'block';
+      } else {
+        x.style.display = 'none';
+      }
+    }
 
+    document.getElementById(supplement.name).appendChild(minus);
+  }
 </script>
 
 <!-- create_supp_container -->
@@ -816,7 +867,7 @@ function searchbar_supplement_onclick(supplement){
 <!-- update numbers -->
 <script>
   function update_numbers(supplement) {
-    x = supplement.qty;
+    x = Number(supplement.qty).toFixed(2);
 
     y = document.getElementById(supplement.name.concat("_label_qty"));
     y.textContent = String(x).concat(" ").concat(supplement.dose_unit);
