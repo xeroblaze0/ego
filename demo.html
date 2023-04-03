@@ -8,12 +8,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-.fa-anchor,.fa-coffee {font-size:200px}
 
-/* Start Accordion */
+<!-- Default style css -->
+<style>
+  body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+  .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+  .fa-anchor,.fa-coffee {font-size:200px}
+</style>
+
+<!-- Accordion css -->
+<style>
   .accordion {
     background-color: #eee;
     color: #444;
@@ -47,146 +51,141 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
-/* End Accordion */
+</style>
 
-/* Start Button */
-.button {
-  background-color: #f44336;
-  border: none;
-  color: white;
-  padding: 5px 12px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-.plus {border-radius: 2px;}
-.minus {border-radius: 4px;}
-.trash {border-radius: 8px;}
-.info {border-radius: 12px;}
-
-/* End Button */
-
-/* Start Dropdown */
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-.dropdown .dropbtn {
-  cursor: pointer;
-  font-size: 16px;  
-  border: none;
-  outline: none;
-  /* color: white; */
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
-}
-.dropdown-content {
-  display: none;
-  /* position: absolute; */
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  /* z-index: 1; */
-  height: auto;
-  
-  overflow: scroll;
-  min-height: fit-content;
-  max-height: 250px;
-}
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-.show {
-  display: block;
-}
-/* End Dropdown */
-
-
-/* Start searchbar result 'added' notification */
-.fa-check{
-  float: right;
-  display: none;
-}
-/* End Notification */
-
-/* Start Search */
-.topnav {
-  overflow: hidden;
-  background-color: #e9e9e9;
-}
-.topnav a {
-  float: left;
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-.topnav a.active {
-  background-color: #2196F3;
-  color: white;
-}
-.topnav .search-container {
-  float: right;
-}
-.topnav input[type=text] {
-  padding: 6px;
-  margin-top: 8px;
-  font-size: 17px;
-  border: none;
-}
-.topnav .search-container button {
-  float: right;
-  padding: 6px 10px;
-  margin-top: 8px;
-  margin-right: 16px;
-  background: #ddd;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
-}
-.topnav .search-container button:hover {
-  background: #ccc;
-}
-@media screen and (max-width: 600px) {
-  .topnav .search-container {
-    float: none;
+<!-- Button css -->
+<style>
+  .button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%;
   }
-  .topnav a, .topnav input[type=text], .topnav .search-container button {
+
+  .plus {border-radius: 2px;}
+  .minus {border-radius: 4px;}
+  .trash {border-radius: 8px;}
+  .info {border-radius: 12px;}
+</style>
+
+<!-- Dropdown css -->
+<stlye>
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  .dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;  
+    border: none;
+    outline: none;
+    /* color: white; */
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+  }
+  .dropdown-content {
+    display: none;
+    /* position: absolute; */
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    /* z-index: 1; */
+    height: auto;
+    
+    overflow: scroll;
+    min-height: fit-content;
+    max-height: 250px;
+  }
+  .dropdown-content a {
     float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
     display: block;
     text-align: left;
-    width: 100%;
-    margin: 0;
-    padding: 14px;
+  }
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  .show {
+    display: block;
+  }
+</stlye>
+
+<!-- Search css -->
+<style>
+  .topnav {
+    overflow: hidden;
+    background-color: #e9e9e9;
+  }
+  .topnav a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  .topnav a.active {
+    background-color: #2196F3;
+    color: white;
+  }
+  .topnav .search-container {
+    float: right;
   }
   .topnav input[type=text] {
-    border: 1px solid #ccc;  
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
   }
-}
-/* End Search */
+  .topnav .search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+  .topnav .search-container button:hover {
+    background: #ccc;
+  }
+  @media screen and (max-width: 600px) {
+    .topnav .search-container {
+      float: none;
+    }
+    .topnav a, .topnav input[type=text], .topnav .search-container button {
+      float: none;
+      display: block;
+      text-align: left;
+      width: 100%;
+      margin: 0;
+      padding: 14px;
+    }
+    .topnav input[type=text] {
+      border: 1px solid #ccc;  
+    }
+  }
+</style>
 
-/* Start Nutrition Label */
+<!-- Nutrition label css -->
+<style>
   .image {
     width: 250px;
     float: left;
@@ -300,25 +299,30 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   .thin-end {
     border-bottom: 1px solid black;
   }
-/* End Nutrition Label */
-
-/* Misc. */
-.listed_supplement{
-  font-size:large;
-  display: inline;
-}
-.full-width{
-  width: 100%;
-}
-.show-all{
-  /* overflow: scroll; */
-  min-height: fit-content;
-  /* max-height: 250px; */
-}
-/* End Misc. */
-
 </style>
+
+<!-- Misc css -->
+<style>
+  .listed_supplement{
+    font-size:large;
+    display: inline;
+  }
+  .full-width{
+    width: 100%;
+  }
+  .show-all{
+    /* overflow: scroll; */
+    min-height: fit-content;
+    /* max-height: 250px; */
+  }
+  .fa-check{
+    float: right;
+    display: none;
+  }
+</style>
+
 </head>
+
 <body>
 
 <!-- Navbar -->
