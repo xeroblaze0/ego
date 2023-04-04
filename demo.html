@@ -355,10 +355,17 @@
     display: none;
   }
   .w3-half{
+    /* defined like this for mobile */
     width: 50%;
   }
   .w3-quarter{
+    /* defined like this for mobile */
     width: 25%;
+  }
+  .editor_supplement{
+    border: 1px solid #cccccc;
+    /* padding: 1px; */
+    border-radius: 10px;
   }
 </style>
 
@@ -555,6 +562,8 @@
     var content = document.createElement("div");
     content.setAttribute("id", supplement.name);
     content.classList.add("w3-row");
+    content.classList.add("w3-container");
+    content.classList.add("editor_supplement");
     document.getElementById("editor_user_mix").appendChild(content);
     create_editor_element_info(supplement);
     create_editor_element_ui(supplement);
@@ -571,18 +580,20 @@
   function create_editor_element_qty(supplement){
     let q = document.createElement("p");
     q.id=supplement.name.concat("_label_qty");
-    q.textContent="Qty: " + supplement.qty + " " + supplement.dose_unit;
+    q.textContent="Unit qty: " + supplement.qty + " " + supplement.dose_unit;
     document.getElementById(supplement.name).firstChild.appendChild(q);
   }
   function create_editor_element_cost(supplement){
-    // console.log(supplement.cost_per_unit);
     let q = document.createElement("p");
     q.id=supplement.name.concat("_label_cost");
     q.textContent="Unit cost: " + supplement.cost_per_unit + " " + supplement.cost_unit;
     document.getElementById(supplement.name).firstChild.appendChild(q);
   }
   function create_editor_element_total(supplement){
-    
+    let q = document.createElement("p");
+    q.id=supplement.name.concat("_label_unittotal");
+    q.textContent="Unit total: $" + Number((supplement.qty*supplement.cost_per_unit)).toFixed(2);
+    document.getElementById(supplement.name).firstChild.appendChild(q);
   }
 
   // ui
@@ -660,6 +671,7 @@
     create_editor_element_label(supplement);
     create_editor_element_qty(supplement);
     create_editor_element_cost(supplement);
+    create_editor_element_total(supplement);
   }
   function create_editor_element_ui(supplement){
     var content = document.createElement("div");
@@ -775,11 +787,15 @@ function searchbar_supplement_onclick(supplement){
 <!-- update numbers -->
 <script>
   function update_numbers(supplement) {
-    x = Number(supplement.qty).toFixed(2);
+    let qty = Number(supplement.qty).toFixed(2);
+    let unittotal = Number(supplement.qty*supplement.cost_per_unit).toFixed(2);
 
-    y = document.getElementById(supplement.name.concat("_label_qty"));
-    y.textContent = "Qty: " + String(x).concat(" ").concat(supplement.dose_unit);
+    let y = document.getElementById(supplement.name.concat("_label_qty"));
+    y.textContent = "Unit qty: " + String(qty).concat(" ").concat(supplement.dose_unit);
     
+    let z = document.getElementById(supplement.name.concat("_label_unittotal"));
+    z.textContent = "Unit total: $" + String(unittotal);
+
     // z = document.getElementById(supplement.name.concat("_mass_qty"));
     // z.innerHTML = String(x).concat(" ").concat(supplement.unit);
     
