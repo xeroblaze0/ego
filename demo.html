@@ -516,45 +516,7 @@
   }
 </script>
 
-<!-- populate_searchbar_content -->
-<script>
-  /* When the user clicks on the button, 
-  toggle between hiding and showing the dropdown content */
-  function populate_searchbar_content() {
-    document.getElementById("searchbar_content").classList.toggle("show");
-    var y;
-    let i;
-
-    // populate supplement list; results are filtered through search script
-    for (i=0; i<=(supplement_data.length-1); i++) {
-      if (i==0){
-        y = "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
-        y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
-      }
-      else{
-        y = y + "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
-        y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
-      }
-    }
-    
-    document.getElementById("searchbar_content").innerHTML = y;
-    result_added_check_check();
-    document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
-  }
-  
-  // Close the dropdown if the user clicks outside of it
-  window.onclick = function(e) {
-    if (!e.target.matches('.dropbtn')) {
-    var searchbar_content = document.getElementById("searchbar_content");
-      if (searchbar_content.classList.contains('show')) {
-        searchbar_content.classList.remove('show');
-      }
-    }
-    document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
-  }
-  </script>
-
-<!-- add_editor_element -->
+<!-- add_editor_elements -->
 <script>
 
   // initialize
@@ -682,6 +644,11 @@
   }
 </script>
 
+<!-- nutrition_label_sort -->
+<script>
+  
+</script>
+
 <!-- Papaparse script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
 <script>
@@ -720,7 +687,45 @@
   }
 </script>
 
-<!-- Search script -->
+<!-- searchbar_results -->
+<script>
+  /* When the user clicks on the button, 
+  toggle between hiding and showing the dropdown content */
+  function populate_searchbar_content() {
+    document.getElementById("searchbar_content").classList.toggle("show");
+    var y;
+    let i;
+
+    // populate supplement list; results are filtered through search script
+    for (i=0; i<=(supplement_data.length-1); i++) {
+      if (i==0){
+        y = "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
+        y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
+      }
+      else{
+        y = y + "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
+        y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
+      }
+    }
+    
+    document.getElementById("searchbar_content").innerHTML = y;
+    result_added_check_check();
+    document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
+  }
+  
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(e) {
+    if (!e.target.matches('.dropbtn')) {
+    var searchbar_content = document.getElementById("searchbar_content");
+      if (searchbar_content.classList.contains('show')) {
+        searchbar_content.classList.remove('show');
+      }
+    }
+    document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
+  }
+  </script>
+
+<!-- searchbar_filter -->
 <script>
   function search_function() {
     let input, filter, ul, li, a, i, p;
@@ -783,6 +788,7 @@ function searchbar_supplement_onclick(supplement){
 }
 
 </script>
+
 
 <!-- update numbers -->
 <script>
