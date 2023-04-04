@@ -413,7 +413,7 @@
 
 <!-- Nutrition Label -->
       <button class="accordion">Nutrition Label</button>
-      <div class="panel">
+      <div class="panel show-all">
         <section class="performance-facts">
           <header class="performance-facts__header">
             <h1 class="performance-facts__title">Nutrition Facts</h1>
@@ -549,35 +549,47 @@
 
 <!-- add_editor_element -->
 <script>
+
+  // initialize
   function add_editor_element(supplement) {
     var content = document.createElement("div");
     content.setAttribute("id", supplement.name);
-    // content.classList.add("w3-container");
-    // content.classList.add("w3-cell");
-    // content.classList.add("show-all");
+    content.classList.add("w3-row");
     document.getElementById("editor_user_mix").appendChild(content);
     create_editor_element_info(supplement);
     create_editor_element_ui(supplement);
-    // create_editor_element_buttons(supplement);
-    // create_editor_element_slider(supplement);
   }
 
+  // info
   function create_editor_element_label(supplement) {
-    let q = document.createElement("SPAN");
-    q.id=supplement.name.concat("_editor_label");
-    q.textContent=supplement.propername.concat(": ");
-    document.getElementById(supplement.name).firstChild.appendChild(q);
+    let q = document.createElement("p");
+    q.classList.add("w3-quarter");
+    q.id=supplement.name.concat("_editor_information");
+    q.textContent=supplement.propername;
+    document.getElementById(supplement.name).appendChild(q);
   }
   function create_editor_element_qty(supplement){
-    let q = document.createElement("SPAN");
+    let q = document.createElement("p");
     q.id=supplement.name.concat("_label_qty");
-    q.textContent=supplement.qty + " " + supplement.dose_unit;
+    q.textContent="Qty: " + supplement.qty + " " + supplement.dose_unit;
     document.getElementById(supplement.name).firstChild.appendChild(q);
   }
+  function create_editor_element_cost(supplement){
+    // console.log(supplement.cost_per_unit);
+    let q = document.createElement("p");
+    q.id=supplement.name.concat("_label_cost");
+    q.textContent="Unit cost: " + supplement.cost_per_unit + " " + supplement.cost_unit;
+    document.getElementById(supplement.name).firstChild.appendChild(q);
+  }
+  function create_editor_element_total(supplement){
+    
+  }
+
+  // ui
   function create_editor_element_slider(supplement){
     
     let slider_container = document.createElement("div");
-    slider_container.classList.add("w3-half");
+    slider_container.classList.add("w3-quarter");
 
     let x = document.createElement("INPUT");
     x.classList.add("slider");
@@ -593,10 +605,9 @@
       update_numbers(supplement);
     }
     slider_container.append(x);
-    document.getElementById(supplement.name).lastChild.appendChild(slider_container);
+    return slider_container;
   }
-  function create_editor_element_buttons(supplement){
-    
+  function create_button_element_minus(supplement){
     let minus_container = document.createElement("div");
     minus_container.classList.add("w3-quarter");
 
@@ -615,7 +626,10 @@
       update_numbers(supplement);
     };
     minus_container.append(minus_button);
+    return minus_container;
 
+  }
+  function create_button_element_plus(supplement){
     let plus_container = document.createElement("div");
     plus_container.classList.add("w3-quarter");
 
@@ -635,220 +649,24 @@
       update_numbers(supplement);
     };
     plus_container.append(plus_button);
-    
-    var info = document.createElement("BUTTON");
-    info.style = ("float: right");
-    info.innerHTML = " i ";
-    info.onclick = function(){
-      var x = document.getElementById(supplement.name.concat("_info"));
-      if (x.style.display === 'none') {
-        x.style.display = 'block';
-      } else {
-        x.style.display = 'none';
-      }
-    }
+    return plus_container;
+    // create_editor_element_slider(supplement);
+    // document.getElementById(supplement.name).lastChild.appendChild(plus_container);
 
-    document.getElementById(supplement.name).lastChild.appendChild(minus_container);
-    create_editor_element_slider(supplement);
-    document.getElementById(supplement.name).lastChild.appendChild(plus_container);
-
+  }
+  
+  // populate editor
+  function create_editor_element_info(supplement){
+    create_editor_element_label(supplement);
+    create_editor_element_qty(supplement);
+    create_editor_element_cost(supplement);
   }
   function create_editor_element_ui(supplement){
     var content = document.createElement("div");
-    content.classList.add("w3-row");
     document.getElementById(supplement.name).appendChild(content);
-    create_editor_element_buttons(supplement);
-  }
-  function create_editor_element_info(supplement){
-    var content = document.createElement("div");
-    content.classList.add("w3-row");
-    document.getElementById(supplement.name).appendChild(content);
-    create_editor_element_label(supplement);
-    create_editor_element_qty(supplement);
-  }
-</script>
-
-<!-- create_supp_container -->
-<script>
-  function create_supp_container(supplement) {
-  /*
-  supp container is the HTML wrapper container for the user's list.
-
-  First it checks if a previous container of the same name was created
-    If not, it creates one, attaches it to the list, then calls the other functions.
-
-    Otherwise it throws an error.
-  */  
-    if(document.getElementById(supplement.name) == null){
-      
-      // var theDiv = document.getElementById("<ID_OF_THE_DIV>");
-      // var content = document.createTextNode("<YOUR_CONTENT>");
-      // theDiv.appendChild(content);
-
-
-      var supp_container = document.getElementById("editor_user_mix");
-      var content = document.createElement("div");
-      content.setAttribute("id", supplement.name);
-      supp_container.appendChild(content);
-
-      create_label(supplement);
-      create_qty_label(supplement);
-      create_buttons(supplement);
-      create_slider(supplement);
-      create_info(supplement);
-      create_nutrition_label(supplement);
-      // create_cart_item(supplement);
-
-      // update_numbers(supplement);
-    }
-    else{
-      alert("supplement exists");
-    }
-  }
-</script>
-
-<!-- create editor UI -->
-<script>
-  function create_label(supplement) {
-    supp_container = document.getElementById(supplement.name);
-    var q = document.createElement("SPAN");
-    q.id=supplement.name.concat("_label");
-    q.innerHTML=supplement.propername.concat(": ");
-    supp_container.appendChild(q);
-  }
-
-  function create_qty_label(supplement) {
-    supp_container = document.getElementById(supplement.name);
-    var x = document.createElement("SPAN");
-    x.id=supplement.name.concat("_label_qty");
-    x.innerHTML=supplement.qty + " " + supplement.cost_unit;
-    supp_container.appendChild(x);
-  }
-
-  function create_buttons(supplement) {
-    supp_container = document.getElementById(supplement.name);
-    var info = document.createElement("BUTTON");
-    info.style = ("float: right");
-    info.innerHTML = " i ";
-    info.onclick = function(){
-      var x = document.getElementById(supplement.name.concat("_info"));
-      if (x.style.display === 'none') {
-        x.style.display = 'block';
-      } else {
-        x.style.display = 'none';
-      }
-    };
-
-    var minus = document.createElement("BUTTON");
-    minus.style = ("float: right")
-    minus.innerHTML = " - ";
-    minus.onclick = function(){
-      if (supplement.qty == 0){
-        return
-      }
-      else{
-        supplement.qty --;
-        document.getElementById(supplement.name.concat("_slider")).value=supplement.qty;
-      }  
-      update_numbers(supplement);
-    };
-    
-    var plus = document.createElement("BUTTON");
-    plus.style = ("float: right")
-    plus.innerHTML = " + ";
-    plus.onclick = function(){
-      if (supplement.qty == document.getElementById(supplement.name.concat("_slider")).max){
-        return
-      }
-      else{
-        supplement.qty ++;
-        document.getElementById(supplement.name.concat("_slider")).value=supplement.qty;
-      }
-      
-      update_numbers(supplement);
-    };
-
-    var trash = document.createElement("BUTTON");
-    trash.style = ("float: right")
-    trash.innerHTML = " ∅ ";
-    trash.onclick = function(){
-      supplement.qty = 0;
-      update_numbers(supplement);
-      get_total();
-
-      document.getElementById(supplement.name).remove();
-      document.getElementById(supplement.name.concat("_nutrient_fact")).remove();
-      document.getElementById(supplement.name.concat("_cart")).remove();
-      if (document.getElementById("editor_user_mix").children.length==0){
-        document.getElementById("userinput_mix_id").remove();
-        document.getElementById("atc").remove();
-        document.getElementById("clear_atc").remove();
-      }
-    };
-
-    supp_container.appendChild(plus);
-    supp_container.appendChild(trash);
-    supp_container.appendChild(minus);
-    supp_container.appendChild(info);
-  }
-
-  function create_slider(supplement) {
-    supp_container = document.getElementById(supplement.name);
-    supplement.qty = 10;
-    var w = document.createElement("div");
-    var x = document.createElement("INPUT");
-    x.setAttribute("type", "range");
-    x.setAttribute("class", "slider");
-    x.setAttribute("name", "supplement.name");
-    x.setAttribute("min", "0");
-    x.setAttribute("value", "10");
-    x.setAttribute("max", "500");
-    x.setAttribute("id", supplement.name.concat("_slider"));
-    x.oninput = function(){
-      supplement.qty = Number(this.value);
-      update_numbers(supplement)};
-    x.style = "width: 100%";
-    w.appendChild(x);
-    supp_container.appendChild(w);
-  }
-
-  function create_info(supplement) {
-    supp_container = document.getElementById(supplement.name);
-    var q = document.createElement("SPAN");
-    q.id=supplement.name.concat("_info");
-    q.innerHTML="tada";
-    q.style.display = "none";
-    supp_container.appendChild(q);
-    supp_container.appendChild(q);
-  }
-
-  function create_nutrition_label(supplement) {
-    var table = document.getElementById("nutrition_fact_table");
-    var row = table.insertRow(0);
-    var qty_percent = row.insertCell(0);
-    var qty_mass = row.insertCell(0);
-    var nutrient = row.insertCell(0);
-    
-    row.className = "nutrient";
-    row.id=supplement.name.concat("_nutrient_fact");
-    nutrient.setAttribute("colspan","2");
-    qty_mass.setAttribute("id", supplement.name.concat("_mass_qty"));
-    qty_percent.setAttribute("id", supplement.name.concat("_percent_qty"));
-    
-    nutrient.innerHTML = supplement.propername;
-    qty_mass.innerHTML = supplement.qty;
-
-    nan_check = (supplement.qty / supplement.dv) * 100;
-    if (isNaN(nan_check)){
-      qty_percent.innerHTML = "N/A*";
-
-    }
-    else{
-      qty_percent.innerHTML = String(nan_check.toFixed(0));
-    }
-    
-    qty_percent.className = "text-right";
-    qty_mass.className = "text-right";
+    document.getElementById(supplement.name).lastChild.appendChild(create_button_element_minus(supplement));
+    document.getElementById(supplement.name).lastChild.appendChild(create_editor_element_slider(supplement));
+    document.getElementById(supplement.name).lastChild.appendChild(create_button_element_plus(supplement));
   }
 </script>
 
@@ -960,7 +778,7 @@ function searchbar_supplement_onclick(supplement){
     x = Number(supplement.qty).toFixed(2);
 
     y = document.getElementById(supplement.name.concat("_label_qty"));
-    y.textContent = String(x).concat(" ").concat(supplement.dose_unit);
+    y.textContent = "Qty: " + String(x).concat(" ").concat(supplement.dose_unit);
     
     // z = document.getElementById(supplement.name.concat("_mass_qty"));
     // z.innerHTML = String(x).concat(" ").concat(supplement.unit);
