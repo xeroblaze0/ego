@@ -630,15 +630,18 @@
 
     let ui_container = document.getElementById(supplement.name.concat("_editor_ui"));
     // name_container = supplement.name;
-    console.log(supplement);
+    // console.log(supplement);
+    let innerhtml_string = "<i class='fa fa-trash' aria-hidden='true' onclick='remove_supplement()'></i>";
+    console.log(innerhtml_string);
     let trash_button = document.createElement("BUTTON");
     trash_button.classList.add('button');
-    trash_button.innerHTML="<i class='fa fa-trash' aria-hidden='true'></i>";
-    trash_button.onclick = function(supplement){
-      console.log("trash clicked");
-      console.log(supplement);
+    // trash_button.innerHTML="<i class='fa fa-trash' aria-hidden='true'></i>";
+    trash_button.innerHTML = innerhtml_string;
+    // trash_button.onclick = function(supplement){
+      // console.log("trash clicked");
+    //   console.log(supplement);
       // remove_supplement(supplement);
-    };
+    // };
 
     ui_container.lastChild.append(trash_button);
 
@@ -786,7 +789,7 @@
 <!-- remove supplement -->
 <script>
   function remove_supplement(supplement){
-    console.log(supplmement);
+    console.log("remove_supplement called");
     // document.getElementById(supplement+"_searchbar_check").style="display: none";
     // document.getElementById("editor_user_mix").children[i].remove();
     // document.getElementById(supplement+"_nutrient_fact").remove();
