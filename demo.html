@@ -348,6 +348,7 @@
   .show-all{
     /* overflow: scroll; */
     min-height: fit-content;
+    /* max-height: fit-content; */
     /* max-height: 250px; */
   }
   .fa-check{
@@ -444,7 +445,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody id="nutrition_fact_table"></tbody>
+            <tbody id="nutrition_fact_table" class="show-all"></tbody>
           </table>
           <p class="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
           <p class="small-info">** Percent Daily Values not established</p>estimate
@@ -505,12 +506,12 @@
         panel.style.maxHeight = null;
       } 
       else {
-        if (panel.id=="panel_search" || panel.id=="panel_editor") {
+        // if (panel.id=="panel_search" || panel.id=="panel_editor") {
           panel.style.maxHeight = "fit-content";
-        }
-        else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
-        }
+        // }
+        // else {
+        //   panel.style.maxHeight = panel.scrollHeight + "px";
+        // }
       } 
     });
   }
@@ -676,14 +677,35 @@
 }
 </script>
 
+<!-- populate_nutrition_label -->
+<script>
+  function populate_nutrition_label(){
+    
+    //depopulate nutrition table
+    trash = document.getElementById("nutrition_fact_table");
+
+    if(trash.children){
+      for(i=0;i<trash.children.length;i++){
+        trash.childNodes[i].remove();
+      }
+    }
+
+    //repopulate nutrition table
+    list = sort_nutrition_elements();
+    // console.log(list);
+    for(i=0;i<list.length;i++){
+      let temp_supplement = supplement_data.find(x=>x.name===list[i].id);
+      add_nutrition_element(temp_supplement);
+    }
+  }
+</script>
+
 <!-- sort_nutrition_elements -->
 <script>
   function sort_nutrition_elements(){
     // a=document.getElementById("editor_user_mix");
     let arr=Array.from(document.getElementById("editor_user_mix").children);
     arr.sort(function(a, b) {
-      // const a.id = a.id.toUpperCase(); // ignore upper and lowercase
-      // const b.id = b.id.toUpperCase(); // ignore upper and lowercase
         
     // sort in an ascending order
       if (a.id < b.id) {
@@ -692,11 +714,11 @@
       if (a.id > b.id) {
         return 1;
       }
-
       // names must be equal
       return 0;
     });
     console.log(arr);
+    return(arr);
   }
 </script>
 
@@ -835,7 +857,7 @@ function searchbar_supplement_onclick(supplement){
     document.getElementById(supplement+"_searchbar_check").style="display: block";
     add_editor_element(temp_supplement);
     // add_nutrition_element(temp_supplement);
-    sort_nutrition_elements();
+    populate_nutrition_label();
     result_added_check_check();
   }
 }
