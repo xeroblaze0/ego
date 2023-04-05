@@ -683,19 +683,25 @@
     
     //depopulate nutrition table
     trash = document.getElementById("nutrition_fact_table");
-
+    cull = trash.children.length;
     if(trash.children){
-      for(i=0;i<trash.children.length;i++){
-        trash.childNodes[i].remove();
+      for(i=0;i<cull;i++){
+        trash.childNodes[0].remove();
       }
     }
 
     //repopulate nutrition table
-    list = sort_nutrition_elements();
-    // console.log(list);
+    let list = sort_nutrition_elements();
+    let otherlist = [];
+
     for(i=0;i<list.length;i++){
       let temp_supplement = supplement_data.find(x=>x.name===list[i].id);
-      add_nutrition_element(temp_supplement);
+      otherlist.push(temp_supplement); //this reverses the list to ascending
+    }
+    // console.log(otherlist);
+
+    for(i=0;i<otherlist.length;i++){
+      add_nutrition_element(otherlist[i]);
     }
   }
 </script>
@@ -707,17 +713,17 @@
     let arr=Array.from(document.getElementById("editor_user_mix").children);
     arr.sort(function(a, b) {
         
-    // sort in an ascending order
-      if (a.id < b.id) {
+    // sort in an descending order
+      if (a.id > b.id) {
         return -1;
       }
-      if (a.id > b.id) {
+      if (a.id < b.id) {
         return 1;
       }
       // names must be equal
       return 0;
     });
-    console.log(arr);
+    // console.log(arr);
     return(arr);
   }
 </script>
@@ -844,6 +850,7 @@ function searchbar_supplement_onclick(supplement){
         do_we_add = false;
         document.getElementById(supplement+"_searchbar_check").style="display: none";
         document.getElementById("editor_user_mix").children[i].remove();
+        document.getElementById(supplement+"_nutrient_fact").remove();
         break;
       }
       else{
@@ -856,7 +863,6 @@ function searchbar_supplement_onclick(supplement){
     var temp_supplement = supplement_data.find(x=>x.name===supplement);
     document.getElementById(supplement+"_searchbar_check").style="display: block";
     add_editor_element(temp_supplement);
-    // add_nutrition_element(temp_supplement);
     populate_nutrition_label();
     result_added_check_check();
   }
