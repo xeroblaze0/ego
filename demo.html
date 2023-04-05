@@ -629,18 +629,19 @@
   function create_button_element_trash(supplement){
 
     let ui_container = document.getElementById(supplement.name.concat("_editor_ui"));
-
+    // name_container = supplement.name;
+    console.log(supplement);
     let trash_button = document.createElement("BUTTON");
     trash_button.classList.add('button');
     trash_button.innerHTML="<i class='fa fa-trash' aria-hidden='true'></i>";
-    trash_button.onclick(remove_supplement(supplement));
+    trash_button.onclick = function(supplement){
+      console.log("trash clicked");
+      console.log(supplement);
+      // remove_supplement(supplement);
+    };
 
     ui_container.lastChild.append(trash_button);
 
-    // let i = document.createElement("i");
-    // i.classList.add('fa');
-    // i.classList.add('fa-trash');
-    // i.classList.add('aria-hidden="true"');
   }
   
   // populate editor
@@ -711,8 +712,8 @@
     let otherlist = [];
 
     for(i=0;i<list.length;i++){
-      let temp_supplement = supplement_data.find(x=>x.name===list[i].id);
-      otherlist.push(temp_supplement); //this reverses the list to ascending
+      let supplement = supplement_data.find(x=>x.name===list[i].id);
+      otherlist.push(supplement); //this reverses the list to ascending
     }
     // console.log(otherlist);
 
@@ -785,9 +786,10 @@
 <!-- remove supplement -->
 <script>
   function remove_supplement(supplement){
-    document.getElementById(supplement+"_searchbar_check").style="display: none";
-    document.getElementById("editor_user_mix").children[i].remove();
-    document.getElementById(supplement+"_nutrient_fact").remove();
+    console.log(supplmement);
+    // document.getElementById(supplement+"_searchbar_check").style="display: none";
+    // document.getElementById("editor_user_mix").children[i].remove();
+    // document.getElementById(supplement+"_nutrient_fact").remove();
   }
 </script>
 
@@ -857,7 +859,7 @@
   // If object is the same, we remove it (toggle)
   // If it's not the same, then we add
 
-function searchbar_supplement_onclick(supplement){
+function searchbar_supplement_onclick(xyz){
   var do_we_add = false;
 
   // If nothing is on the list, then we add
@@ -870,10 +872,10 @@ function searchbar_supplement_onclick(supplement){
   else{
     length = document.getElementById("editor_user_mix").children.length
     for (i=0; i<length; i++){
-      if (supplement==document.getElementById("editor_user_mix").children[i].id){
+      if (xyz==document.getElementById("editor_user_mix").children[i].id){
         //remove supplement
         do_we_add = false;
-        remove_supplement(supplement);
+        remove_supplement(xyz);
         break;
       }
       else{
@@ -883,9 +885,9 @@ function searchbar_supplement_onclick(supplement){
   }
   result_added_check_check();
   if(do_we_add){
-    var temp_supplement = supplement_data.find(x=>x.name===supplement);
-    document.getElementById(supplement+"_searchbar_check").style="display: block";
-    add_editor_element(temp_supplement);
+    var supplement = supplement_data.find(x=>x.name===xyz);
+    document.getElementById(xyz+"_searchbar_check").style="display: block";
+    add_editor_element(supplement);
     populate_nutrition_label();
     result_added_check_check();
   }
