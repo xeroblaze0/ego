@@ -592,7 +592,8 @@
             supplement.qty = 0;
             update_numbers(supplement);
             get_total();
-      
+            // console.log(supplement);
+
             document.getElementById(supplement.name).remove();
             document.getElementById(supplement.name.concat("_nutrient_fact")).remove();
             document.getElementById(supplement.name.concat("_cart")).remove();
