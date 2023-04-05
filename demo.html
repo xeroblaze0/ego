@@ -624,9 +624,23 @@
     };
     plus_container.append(plus_button);
     return plus_container;
-    // create_editor_element_slider(supplement);
-    // document.getElementById(supplement.name).lastChild.appendChild(plus_container);
+  }
 
+  function create_button_element_trash(supplement){
+
+    let ui_container = document.getElementById(supplement.name.concat("_editor_ui"));
+
+    let trash_button = document.createElement("BUTTON");
+    trash_button.classList.add('button');
+    trash_button.innerHTML="<i class='fa fa-trash' aria-hidden='true'></i>";
+    trash_button.onclick(remove_supplement(supplement));
+
+    ui_container.lastChild.append(trash_button);
+
+    // let i = document.createElement("i");
+    // i.classList.add('fa');
+    // i.classList.add('fa-trash');
+    // i.classList.add('aria-hidden="true"');
   }
   
   // populate editor
@@ -638,10 +652,12 @@
   }
   function create_editor_element_ui(supplement){
     var content = document.createElement("div");
+    content.id=supplement.name.concat("_editor_ui");
     document.getElementById(supplement.name).appendChild(content);
     document.getElementById(supplement.name).lastChild.appendChild(create_button_element_minus(supplement));
     document.getElementById(supplement.name).lastChild.appendChild(create_editor_element_slider(supplement));
     document.getElementById(supplement.name).lastChild.appendChild(create_button_element_plus(supplement));
+    create_button_element_trash(supplement)
   }
 </script>
 
@@ -766,6 +782,15 @@
   }
 </script>
 
+<!-- remove supplement -->
+<script>
+  function remove_supplement(supplement){
+    document.getElementById(supplement+"_searchbar_check").style="display: none";
+    document.getElementById("editor_user_mix").children[i].remove();
+    document.getElementById(supplement+"_nutrient_fact").remove();
+  }
+</script>
+
 <!-- searchbar_results -->
 <script>
   /* When the user clicks on the button, 
@@ -848,9 +873,7 @@ function searchbar_supplement_onclick(supplement){
       if (supplement==document.getElementById("editor_user_mix").children[i].id){
         //remove supplement
         do_we_add = false;
-        document.getElementById(supplement+"_searchbar_check").style="display: none";
-        document.getElementById("editor_user_mix").children[i].remove();
-        document.getElementById(supplement+"_nutrient_fact").remove();
+        remove_supplement(supplement);
         break;
       }
       else{
