@@ -461,9 +461,9 @@
   </div>
 </div>
 
-<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+<!-- <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
     <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
-</div>
+</div> -->
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity">  
@@ -644,9 +644,60 @@
   }
 </script>
 
-<!-- nutrition_label_sort -->
+<!-- add_nutrition_label_elements -->
 <script>
-  
+  function add_nutrition_element(supplement) {
+    var table = document.getElementById("nutrition_fact_table");
+    var row = table.insertRow(0);
+    var qty_percent = row.insertCell(0);
+    var qty_mass = row.insertCell(0);
+    var nutrient = row.insertCell(0);
+    
+    row.className = "nutrient";
+    row.id=supplement.name.concat("_nutrient_fact");
+    nutrient.setAttribute("colspan","2");
+    qty_mass.setAttribute("id", supplement.name.concat("_mass_qty"));
+    qty_percent.setAttribute("id", supplement.name.concat("_percent_qty"));
+    
+    nutrient.textContent = supplement.propername;
+    qty_mass.textContent = supplement.qty;
+
+    nan_check = (supplement.qty / supplement.dv) * 100;
+    if (isNaN(nan_check)){
+      qty_percent.textContent = "N/A*";
+
+    }
+    else{
+      qty_percent.textContent = String(nan_check.toFixed(0));
+    }
+    
+    qty_percent.className = "text-right";
+    qty_mass.className = "text-right";
+}
+</script>
+
+<!-- sort_nutrition_elements -->
+<script>
+  function sort_nutrition_elements(){
+    // a=document.getElementById("editor_user_mix");
+    let arr=Array.from(document.getElementById("editor_user_mix").children);
+    arr.sort(function(a, b) {
+      // const a.id = a.id.toUpperCase(); // ignore upper and lowercase
+      // const b.id = b.id.toUpperCase(); // ignore upper and lowercase
+        
+    // sort in an ascending order
+      if (a.id < b.id) {
+        return -1;
+      }
+      if (a.id > b.id) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+    console.log(arr);
+  }
 </script>
 
 <!-- Papaparse script -->
@@ -723,7 +774,7 @@
     }
     document.getElementById("panel_search").style.height=document.getElementById("searchbar_content").clientHeight + 50 + "px";
   }
-  </script>
+</script>
 
 <!-- searchbar_filter -->
 <script>
@@ -783,6 +834,8 @@ function searchbar_supplement_onclick(supplement){
     var temp_supplement = supplement_data.find(x=>x.name===supplement);
     document.getElementById(supplement+"_searchbar_check").style="display: block";
     add_editor_element(temp_supplement);
+    // add_nutrition_element(temp_supplement);
+    sort_nutrition_elements();
     result_added_check_check();
   }
 }
