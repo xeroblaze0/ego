@@ -59,19 +59,19 @@
     background-color: #f44336;
     border: none;
     color: white;
-    padding: 5px 12px;
+    padding: 4px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    /* margin: 4px 2px; */
     cursor: pointer;
     border-radius: 50%;
   }
 
   .plus {float: left;}
   .minus {float: right;}
-  .trash {border-radius: 8px;}
+  .trash {float: right;}
   .info {border-radius: 12px;}
 </style>
 
@@ -336,6 +336,45 @@
   }
 </style>
 
+<!-- Tooltip css -->
+<style>
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    /* border-bottom: 1px dotted black; */
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: #fff;
+    color: black;
+    /* text-align: center; */
+    border-color: #f44336;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 110%;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-color: transparent #f44336 transparent transparent;
+  }
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>
+
 <!-- Misc css -->
 <style>
   .listed_supplement{
@@ -354,6 +393,9 @@
   .fa-check{
     float: right;
     display: none;
+  }
+  .fa-info-circle{
+    margin-left: 15px;
   }
   .w3-half{
     /* defined like this for mobile */
@@ -624,13 +666,13 @@
     plus_container.append(plus_button);
     return plus_container;
   }
-
   function create_button_element_trash(supplement){
 
     let ui_container = document.getElementById(supplement.name.concat("_editor_ui"));
 
     let trash_button = document.createElement("BUTTON");
     trash_button.classList.add('button');
+    trash_button.classList.add('trash');
     trash_button.innerHTML="<i class='fa fa-trash' aria-hidden='true'></i>";
     trash_button.onclick = function(){
       id = this.parentElement.parentElement.parentElement.id;
@@ -802,10 +844,14 @@
     for (i=0; i<=(supplement_data.length-1); i++) {
       if (i==0){
         y = "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
+        y = y + "<i class='fa fa-info-circle tooltip' id='"+supplement_data[i].name+"_info_circle' aria-hidden='true'>";
+        y = y + "<span class='tooltiptext'>"+supplement_data[i].blurb+"</span></i>";
         y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";
       }
       else{
         y = y + "<a class='listed_supplement dropbtn' onclick=searchbar_supplement_onclick('"+ supplement_data[i].name +"')>" + supplement_data[i].propername;
+        y = y + "<i class='fa fa-info-circle tooltip' id='"+supplement_data[i].name+"_info_circle' aria-hidden='true'>";
+        y = y + "<span class='tooltiptext'>"+supplement_data[i].blurb+"</span></i>";
         y = y + "<i class='fa fa-check fa-1' id='"+supplement_data[i].name+"_searchbar_check' aria-hidden='true'></i></a>";      
       }
     }
