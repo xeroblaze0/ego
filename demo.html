@@ -598,7 +598,14 @@
   function create_editor_element_total(supplement){
     let q = document.createElement("p");
     q.id=supplement.name.concat("_label_unittotal");
-    q.textContent="Unit total: $" + Number((supplement.qty*supplement.cost_per_unit)).toFixed(2);
+    // q.textContent="Unit total: $" + Number((supplement.qty*supplement.cost_per_unit)).toFixed(2);
+
+    if (supplement.dose_unit == "mg"){
+      q.textContent="Unit total: $" + Number((supplement.qty*supplement.cost_per_unit)).toFixed(0);
+    }
+    else{
+      q.textContent="Unit total: $" + Number((supplement.qty*supplement.cost_per_unit)).toFixed(2);
+    }
     document.getElementById(supplement.name).firstChild.appendChild(q);
   }
 
@@ -659,7 +666,7 @@
         return
       }
       else{
-        supplement.qty ++;
+        supplement.qty=supplement.qty+supplement.step;
         document.getElementById(supplement.name.concat("_slider")).value=supplement.qty;
       }
       
@@ -718,7 +725,7 @@
     qty_percent.setAttribute("id", supplement.name.concat("_percent_qty"));
     
     nutrient.textContent = supplement.propername;
-    qty_mass.textContent = supplement.qty;
+    qty_mass.textContent = supplement.qty + " " + supplement.dose_unit;
 
     nan_check = (supplement.qty / supplement.dv) * 100;
     if (isNaN(nan_check)){
@@ -879,6 +886,9 @@
 
 <!-- searchbar_filter -->
 <script>
+  // Perform a search based on the input value in the search input field, and display/hide
+  // the anchor elements based on the filter value. Adjust the height of the search panel
+  // based on the content height.
   function search_function() {
     let input, filter, ul, li, a, i, p;
     input = document.getElementById("search_input");
@@ -943,7 +953,20 @@ function searchbar_supplement_onclick(xyz){
 <!-- update numbers -->
 <script>
   function update_numbers(supplement) {
-    let qty = Number(supplement.qty).toFixed(2);
+
+    let qty = Number(supplement.qty);
+
+    console.log(String(qty.toFixed(0)));
+    console.log(String(qty.toFixed(2)));
+    console.log();
+
+    if (supplement.dose_unit == "mg"){
+      qty.toFixed(0);
+    }
+    else{
+      qty.toFixed(2);
+    }
+
     let unittotal = Number(supplement.qty*supplement.cost_per_unit).toFixed(2);
 
     let y = document.getElementById(supplement.name.concat("_label_qty"));
@@ -952,8 +975,8 @@ function searchbar_supplement_onclick(xyz){
     let z = document.getElementById(supplement.name.concat("_label_unittotal"));
     z.textContent = "Unit total: $" + String(unittotal);
 
-    // z = document.getElementById(supplement.name.concat("_mass_qty"));
-    // z.innerHTML = String(x).concat(" ").concat(supplement.unit);
+    let x = document.getElementById(supplement.name.concat("_mass_qty"));
+    x.textContent = String(qty).concat(" ").concat(supplement.dose_unit);
     
     // v = document.getElementById(supplement.name.concat("_cart_label_qty"));
     // v.innerHTML = String(x);
